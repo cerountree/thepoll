@@ -5,10 +5,7 @@ import com.cerountree.thepoll.model.Poll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,14 +15,14 @@ public class PollController {
     @Autowired
     private PollService pollService;
 
-    @GetMapping("/Poll/{name}")
+    @GetMapping("/poll/{name}")
     public ResponseEntity<?> getPoll(@PathVariable String name) {
         Poll poll = pollService.getPoll(name);
         return ResponseEntity.ok(poll);
     }
 
     @GetMapping("/poll/getOptions")
-    public ResponseEntity<?> getOptions(@PathVariable Poll poll){
+    public ResponseEntity<?> getOptions(@RequestParam Poll poll){
         List<Option> options = pollService.getOptions(poll.getId());
         return ResponseEntity.ok(options);
     }
@@ -41,5 +38,11 @@ public class PollController {
                                        @RequestParam("poll") Poll poll){
         String option = pollService.addOption(name, poll.getId());
         return ResponseEntity.ok(option);
+    }
+
+    @PutMapping("/poll/updateOption")
+    public ResponseEntity<?> updateOption(@RequestParam Option option){
+        String result = pollService.updateOption(option);
+        return ResponseEntity.ok(result);
     }
 }

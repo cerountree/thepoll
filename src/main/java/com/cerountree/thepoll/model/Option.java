@@ -44,4 +44,8 @@ public class Option {
     private void addCount(int count){
         this.count += count;
     }
+
+    public String getId() {
+        return Id;
+    }
 }
